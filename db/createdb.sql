@@ -1,4 +1,4 @@
-create table cleaning_log (
+create table executions (
     id int,
     ts timestamp,
     commands int,
