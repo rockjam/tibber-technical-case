@@ -1,5 +1,8 @@
 # Tibber Technical case
 
+Assumptions:
+* Coordinate 0,0 is at the top left
+
 ## Prerequisites
 
 * Docker

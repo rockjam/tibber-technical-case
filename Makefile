@@ -1,6 +1,6 @@
 .PHONY: run-dev
 run-dev:
-	poetry run flask --app tibber_technical_case/app run
+	poetry run flask --debug --app tibber_technical_case/app run
 
 .PHONY: run
 run:
@@ -12,11 +12,11 @@ stop:
 
 .PHONY: test
 test:
-	poetry run pytest tibber_technical_case
+	poetry run pytest -s tibber_technical_case
 
 .PHONY: e2e-test
 e2e-test: run
-	poetry run pytest e2e_tests
+	poetry run pytest -s e2e_tests
 
 
 
