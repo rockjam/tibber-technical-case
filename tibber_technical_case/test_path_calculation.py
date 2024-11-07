@@ -1,4 +1,4 @@
-from tibber_technical_case.calculate_path import calculate_path, count_unique_positions
+from tibber_technical_case.path_calculation import calculate_path, count_unique_positions
 
 easy_path = [
     {"direction": "east", "steps": 2},

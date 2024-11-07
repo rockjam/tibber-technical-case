@@ -18,22 +18,14 @@ make run
 
 Once running, try making a request:
 ```shell
-curl localhost:5000/tibber-developer-test/enter-path --data '{
-  "start": {
-    "x": 10,
-    "y": 22
-  },
-  "commmands": [
-    {
-      "direction": "east",
-      "steps": 2
-    },
-    {
-      "direction": "north",
-      "steps": 1
-    }
+curl -XPOST localhost:5000/tibber-developer-test/enter-path -H "Content-Type: application/json" --data '{
+  "start": { "x": 10, "y": 22 },
+  "commands": [
+    {"direction": "east", "steps": 2},
+    {"direction": "north", "steps": 1},
+    {"direction": "west", "steps": 100}
   ]
-}'
+}' | jq
 ```
 
 it should respond with:

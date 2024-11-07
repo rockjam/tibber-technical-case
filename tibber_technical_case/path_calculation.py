@@ -4,22 +4,20 @@ def count_unique_positions(x, y, commands):
     return len(set(positions))
 
 
-# returns a list of all visited position, even position visited several times
+# returns a list of all visited position, including positions visited several times
 def calculate_path(x, y, commands):
     position_history = [(x, y)]
 
     for command in commands:
-        positions = move(position_history[-1], command)
-        position_history.extend(positions)
+        move(position_history, command)
 
     return position_history
 
 
-def move(current_position, command):
-    x, y = current_position
+def move(position_history, command):
+    x, y = position_history[-1]
     direction = command["direction"]
     steps = command["steps"]
-    history = []
 
     for _ in range(steps):
         match direction:
@@ -31,5 +29,4 @@ def move(current_position, command):
                 y += 1
             case "west":
                 x -= 1
-        history.append((x, y))
-    return history
+        position_history.append((x, y))
