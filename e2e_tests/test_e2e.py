@@ -34,4 +34,4 @@ def test_e2e():
     assert response_body["duration"] > 0
     assert response_body["commands"] == 2
     assert response_body["result"] == 4
-    assert len(response_body["ts"]) > 0
+    assert len(response_body["timestamp"]) > 0

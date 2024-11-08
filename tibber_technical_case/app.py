@@ -4,6 +4,7 @@ import psycopg2
 from flask import Flask, request
 
 from tibber_technical_case.database import save_execution
+from tibber_technical_case.measure_utils import measure_execution_time
 from tibber_technical_case.path_calculation import count_unique_positions
 
 app = Flask(__name__)
@@ -23,12 +24,12 @@ def enter_path():
     start_x = request_body["start"]["x"]
     start_y = request_body["start"]["y"]
 
-    result = count_unique_positions(start_x, start_y, commands)
-    execution = save_execution(len(commands), result, conn)
+    result, duration = measure_execution_time(lambda: count_unique_positions(start_x, start_y, commands))
+    execution = save_execution(len(commands), result, duration, conn)
 
     return {
         "id": execution["id"],
-        "ts": execution["ts"],
+        "timestamp": execution["timestamp"],
         "commands": execution["commands"],
         "result": execution["result"],
         "duration": execution["duration"]
