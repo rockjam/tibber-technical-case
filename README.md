@@ -44,9 +44,7 @@ It should respond with something like:
 ```
 
 > [!NOTE]  
-> If you're on MacOS, you might need
-> to [free up](https://medium.com/@inspiremeashish/port-5000-already-in-use-macos-sonama-issue-69d0adc09157)  
-> port 5000 it in order to run the API
+> If you're on MacOS, you might need to [disable Airplay Receiver](https://medium.com/@inspiremeashish/port-5000-already-in-use-macos-sonama-issue-69d0adc09157) to run the API on port 5000  
 
 Last, confirm that execution is written to the database:
 
