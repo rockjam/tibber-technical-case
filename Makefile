@@ -1,7 +1,3 @@
-.PHONY: run-dev
-run-dev:
-	poetry run flask -e .env.local --debug --app tibber_technical_case/app run
-
 .PHONY: run
 run:
 	docker compose up --build --wait -d
@@ -9,6 +5,14 @@ run:
 .PHONY: stop
 stop:
 	docker compose down
+
+.PHONY: dev-setup
+dev-setup:
+	poetry install
+
+.PHONY: run-dev
+run-dev:
+	poetry run flask -e .env.local --debug --app tibber_technical_case/app run
 
 .PHONY: test
 test:
