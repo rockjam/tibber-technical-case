@@ -1,7 +1,8 @@
+create sequence executions_id_seq;
 create table executions (
-    id int,
-    ts timestamp,
-    commands int,
-    result int,
-    duration real
+    id int primary key default nextval('executions_id_seq'),
+    ts timestamp not null default now(),
+    commands int not null,
+    result int not null,
+    duration real not null
 );

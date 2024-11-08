@@ -1,6 +1,6 @@
 .PHONY: run-dev
 run-dev:
-	poetry run flask --debug --app tibber_technical_case/app run
+	poetry run flask -e .env.local --debug --app tibber_technical_case/app run
 
 .PHONY: run
 run:

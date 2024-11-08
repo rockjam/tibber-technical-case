@@ -1,11 +1,18 @@
-from datetime import datetime
+import os
 
-from flask import Flask
-from flask import request
+import psycopg2
+from flask import Flask, request
 
+from tibber_technical_case.database import save_execution
 from tibber_technical_case.path_calculation import count_unique_positions
 
 app = Flask(__name__)
+
+conn = psycopg2.connect(host=os.environ["DB_HOST"],
+                        port=os.environ["DB_PORT"],
+                        dbname=os.environ["DB_NAME"],
+                        user=os.environ["DB_USER"],
+                        password=os.environ["DB_PASSWORD"])
 
 
 @app.route("/tibber-developer-test/enter-path", methods=["POST"])
@@ -15,15 +22,16 @@ def enter_path():
     commands = request_body["commands"]
     start_x = request_body["start"]["x"]
     start_y = request_body["start"]["y"]
+
     result = count_unique_positions(start_x, start_y, commands)
-    now = datetime.now()
+    execution = save_execution(len(commands), result, conn)
 
     return {
-        "id": 123,  # TODO
-        "ts": str(now),
-        "commands": len(commands),
-        "result": result,
-        "duration": 33,  # TODO
+        "id": execution["id"],
+        "ts": execution["ts"],
+        "commands": execution["commands"],
+        "result": execution["result"],
+        "duration": execution["duration"]
     }
 
 

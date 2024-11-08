@@ -19,4 +19,4 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY tibber_technical_case ./tibber_technical_case
 
-ENTRYPOINT ["gunicorn", "--workers=4", "-b 0.0.0.0:5000", "tibber_technical_case.app:app"]
+ENTRYPOINT ["gunicorn", "--workers=8", "-b 0.0.0.0:5000", "--access-logfile=-", "--error-logfile=-", "tibber_technical_case.app:app"]
