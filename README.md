@@ -2,7 +2,7 @@
 
 Tibber Technical case, Python implementation.
 Flask used for API routing, psycopg2 for the database access, gunicorn as the WSGI server.
-The server is containerized with Docker, and has Docker Compose setup for simplified setup.
+The server is containerized with Docker, and has Docker Compose setup for simplified end to end testing.
 
 ## Prerequisites
 
