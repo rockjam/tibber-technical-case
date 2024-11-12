@@ -1,34 +1,62 @@
 # returns a number of uniquely visited positions
 def count_unique_positions(x, y, commands):
     path_segments = calculate_path(x, y, commands)
+    segments_count = len(path_segments)
     unique_positions_count = 0
 
-    # how many points on this segment are cleaned by other path
+    # how many points on this path segment will be cleaned by other path segment in the "future"
     # only consider paths that are after this one
-    for i, this in enumerate(path_segments):
-        segment_unique_points = calculate_segment_points(this)
-        for j, other in enumerate(path_segments):
-            if i > j and perpendicular_cross(this, other):
-                segment_unique_points -= 1
-        unique_positions_count += segment_unique_points
+    for i in range(0, segments_count):
+        this = path_segments[i]
+        unique_points = calculate_segment_points(this)
+        for j in range(i + 1, segments_count):
+            other = path_segments[j]
+            unique_points -= count_intersection_points(this, other)
+
+        unique_positions_count += unique_points
 
     return unique_positions_count
 
 
-# TODO: maybe it should return a number of intersections(0 or 1)
-def perpendicular_cross(seg1, seg2):
+def count_intersection_points(seg1, seg2):
     (x1, y1), (x2, y2) = seg1
     (x3, y3), (x4, y4) = seg2
 
+    # seg1 and seg2 are horizontal
+    if y1 == y2 and y3 == y4:
+        if y1 == y3:  # and on the same y coordinate
+            return count_point_intersections_one_axis((x1, x2), (x3, x4))
+        else:
+            return 0
+
+    # seg1 and seg2 are vertical
+    if x1 == x2 and x3 == x4:
+        if x1 == x3:  # and on the same x coordinate
+            return count_point_intersections_one_axis((y1, y2), (y3, y4))
+        else:
+            return 0
+
     # seg1 horizontal, seg2 vertical
     if y1 == y2 and x3 == x4:
-        return min(x1, x2) <= x3 <= max(x1, x2) and min(y3, y4) <= y1 <= max(y3, y4)
+        return int(min(x1, x2) <= x3 <= max(x1, x2) and min(y3, y4) <= y1 <= max(y3, y4))
 
     # seg1 vertical, seg2 horizontal
     if x1 == x2 and y3 == y4:
-        return min(y1, y2) <= y3 <= max(y1, y2) and min(x3, x4) <= x1 <= max(x3, x4)
+        return int(min(y1, y2) <= y3 <= max(y1, y2) and min(x3, x4) <= x1 <= max(x3, x4))
 
-    return False
+    return 0
+
+
+def count_point_intersections_one_axis(seg1, seg2):
+    a1, a2 = seg1
+    a3, a4 = seg2
+    first_bound = max(min(a1, a2), min(a3, a4))
+    second_bound = min(max(a1, a2), max(a3, a4))
+
+    if first_bound <= second_bound:
+        return abs(first_bound - second_bound) + 1
+    else:
+        return 0
 
 
 # calculates a number of points in the path segment
@@ -40,7 +68,8 @@ def calculate_segment_points(segment):
         return abs(x2 - x1) + 1
 
 
-# returns a list of all visited position, including positions visited several times
+# returns list of all visited segments.
+# segment is represent by the start and end point
 def calculate_path(x, y, commands):
     path_history = []
     current_position = (x, y)

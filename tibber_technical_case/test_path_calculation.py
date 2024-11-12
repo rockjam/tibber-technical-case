@@ -1,8 +1,15 @@
-from tibber_technical_case.path_calculation import calculate_path, count_unique_positions, perpendicular_cross
+from tibber_technical_case.path_calculation import calculate_path, count_unique_positions, count_intersection_points
 
 easy_path = [
     {"direction": "east", "steps": 2},
     {"direction": "north", "steps": 1},
+]
+
+crossing_path = [
+    {"direction": "east", "steps": 2},
+    {"direction": "south", "steps": 2},
+    {"direction": "west", "steps": 1},
+    {"direction": "north", "steps": 3},
 ]
 
 repeated_path = [
@@ -30,6 +37,19 @@ def test_calculate_easy_path():
 
 def test_count_easy_path():
     assert count_unique_positions(10, 22, easy_path) == 4
+
+
+def test_calculate_crossing_path():
+    assert calculate_path(10, 22, crossing_path) == [
+        ((10, 22), (12, 22)),
+        ((12, 22), (12, 24)),
+        ((12, 24), (11, 24)),
+        ((11, 24), (11, 21)),
+    ]
+
+
+def test_count_crossing_path():
+    assert count_unique_positions(10, 22, crossing_path) == 8
 
 
 def test_calculate_repeated_path():
@@ -60,33 +80,71 @@ def test_count_back_forth_path():
 
 
 def test_perpendicular_cross_intersection_middle():
-    assert perpendicular_cross(
+    assert count_intersection_points(
         ((1, 3), (3, 3)),
         ((2, 2), (2, 4))
-    ) == True
-    assert perpendicular_cross(
+    ) == 1
+    assert count_intersection_points(
         ((2, 2), (2, 4)),
         ((1, 3), (3, 3))
-    ) == True
+    ) == 1
 
 
 def test_perpendicular_cross_intersection_ends():
-    assert perpendicular_cross(
+    assert count_intersection_points(
         ((1, 1), (1, 3)),
         ((1, 1), (3, 1))
-    ) == True
-    assert perpendicular_cross(
+    ) == 1
+    assert count_intersection_points(
         ((1, 1), (3, 1)),
         ((1, 1), (1, 3))
-    ) == True
+    ) == 1
 
 
 def test_perpendicular_cross_no_intersection():
-    assert perpendicular_cross(
+    assert count_intersection_points(
         ((1, 1), (1, 3)),
         ((2, 1), (3, 1))
-    ) == False
-    assert perpendicular_cross(
+    ) == 0
+    assert count_intersection_points(
         ((2, 1), (3, 1)),
         ((1, 1), (1, 3))
-    ) == False
+    ) == 0
+
+
+def test_parallel_cross_horizontal():
+    assert count_intersection_points(
+        ((0, 0), (3, 0)),
+        ((5, 0), (8, 0)),
+    ) == 0
+    assert count_intersection_points(
+        ((0, 0), (8, 0)),
+        ((3, 0), (6, 0)),
+    ) == 4
+    assert count_intersection_points(
+        ((0, 0), (5, 0)),
+        ((4, 0), (8, 0)),
+    ) == 2
+    assert count_intersection_points(
+        ((3, 0), (6, 0)),
+        ((0, 0), (8, 0)),
+    ) == 4
+
+
+def test_parallel_cross_vertical():
+    assert count_intersection_points(
+        ((0, 0), (0, 3)),
+        ((0, 5), (0, 8)),
+    ) == 0
+    assert count_intersection_points(
+        ((0, 0), (0, 8)),
+        ((0, 3), (0, 6)),
+    ) == 4
+    assert count_intersection_points(
+        ((0, 0), (0, 5)),
+        ((0, 4), (0, 8)),
+    ) == 2
+    assert count_intersection_points(
+        ((0, 3), (0, 6)),
+        ((0, 0), (0, 8)),
+    ) == 4
