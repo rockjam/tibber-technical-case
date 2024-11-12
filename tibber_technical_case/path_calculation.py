@@ -1,11 +1,10 @@
 # returns a number of uniquely visited positions
 def count_unique_positions(x, y, commands):
-    path_segments = calculate_path(x, y, commands)
+    path_segments = calculate_path_segments(x, y, commands)
     segments_count = len(path_segments)
     unique_positions_count = 0
 
     # how many points on this path segment will be cleaned by other path segment in the "future"
-    # only consider paths that are after this one
     for i in range(0, segments_count):
         this = path_segments[i]
         unique_points = calculate_segment_points(this)
@@ -70,16 +69,16 @@ def calculate_segment_points(segment):
 
 # returns list of all visited segments.
 # segment is represent by the start and end point
-def calculate_path(x, y, commands):
-    path_history = []
+def calculate_path_segments(x, y, commands):
+    path_segments = []
     current_position = (x, y)
 
     for command in commands:
         new_position = move(current_position, command)
-        path_history.append((current_position, new_position))
+        path_segments.append((current_position, new_position))
         current_position = new_position
 
-    return path_history
+    return path_segments
 
 
 def move(current_position, command):

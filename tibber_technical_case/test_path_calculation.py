@@ -1,4 +1,4 @@
-from tibber_technical_case.path_calculation import calculate_path, count_unique_positions, count_intersection_points
+from tibber_technical_case.path_calculation import calculate_path_segments, count_unique_positions, count_intersection_points
 
 easy_path = [
     {"direction": "east", "steps": 2},
@@ -29,7 +29,7 @@ back_forth_path = [
 
 
 def test_calculate_easy_path():
-    assert calculate_path(10, 22, easy_path) == [
+    assert calculate_path_segments(10, 22, easy_path) == [
         ((10, 22), (12, 22)),
         ((12, 22), (12, 21))
     ]
@@ -40,7 +40,7 @@ def test_count_easy_path():
 
 
 def test_calculate_crossing_path():
-    assert calculate_path(10, 22, crossing_path) == [
+    assert calculate_path_segments(10, 22, crossing_path) == [
         ((10, 22), (12, 22)),
         ((12, 22), (12, 24)),
         ((12, 24), (11, 24)),
@@ -53,7 +53,7 @@ def test_count_crossing_path():
 
 
 def test_calculate_repeated_path():
-    assert calculate_path(10, 22, repeated_path) == [
+    assert calculate_path_segments(10, 22, repeated_path) == [
         ((10, 22), (12, 22)),
         ((12, 22), (12, 21)),
         ((12, 21), (12, 23))
@@ -65,7 +65,7 @@ def test_count_repeated_path():
 
 
 def test_calculate_back_forth_path():
-    assert calculate_path(10, 22, back_forth_path) == [
+    assert calculate_path_segments(10, 22, back_forth_path) == [
         ((10, 22), (10, 21)),
         ((10, 21), (10, 22)),
         ((10, 22), (10, 21)),
